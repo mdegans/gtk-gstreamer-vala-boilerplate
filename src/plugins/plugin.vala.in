@@ -1,0 +1,49 @@
+/* plugin.vala
+ *
+ * Copyright 2021 Michael de Gans <47511965+mdegans@users.noreply.github.com>
+ *
+ * MIT License - see LICENSE.build
+ *
+ * This file is a template. These will eventually become #defines in C, prefixed
+ * with the namespace name like `GGVB_VERSION_LONG`.
+ */
+
+
+// ignore any squigglies here. Meson will format this template
+// with configure_file (see this folder's meson.build)
+const Gst.PluginDesc gst_plugin_desc = {
+	@GST_VERSION_MAJOR@, @GST_VERSION_MINOR@, 
+	"Gst@PROJECT_NAME@", 
+	"@PLUGIN_DESCRIPTION@",
+	plugin_init,
+	"@VERSION_LONG@",
+	"@LICENSE@",
+	"@PROJECT_URL@",
+	"@PACKAGE_NAME@",
+	"@ORIGIN@",
+};
+
+public static bool plugin_init(Gst.Plugin p) {
+	return (
+		Gst.Element.register(
+			p,
+			"dvrbin",
+			Gst.Rank.NONE,
+			typeof(DvrBin)
+		) &&
+		Gst.Element.register(
+			p,
+			"photobin",
+			Gst.Rank.NONE,
+			typeof(PhotoBin)
+		)
+	);
+}
+
+[CCode (
+	cprefix = "Gst@PROJECT_NAME@",
+	gir_namespace = "Gst@PROJECT_NAME@",
+	gir_version = "@VERSION_SHORT@",
+	lower_case_cprefix="gst_@PROJECT_NAME_LOWER@_",
+	cheader_filename="gst@PROJECT_NAME_LOWER@.h")]
+namespace Gst@PROJECT_NAME@ {}
