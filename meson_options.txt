@@ -1,0 +1,7 @@
+option('gui', type: 'feature', description: 'enable gui')
+option('wayland',
+  type: 'feature',
+  value: 'disabled',
+  description: 'enable wayland',
+)
+option('tests', type: 'feature', description: 'enable all tests')

@@ -9,8 +9,8 @@
  * with the namespace name like `GGVB_VERSION_LONG`.
  */
 
-# This sets some options for the entire namespace.
-# see: https://wiki.gnome.org/Projects/Vala/Manual/Attributes
+// This sets some options for the entire namespace.
+// see: https://wiki.gnome.org/Projects/Vala/Manual/Attributes
 [CCode (
 	cprefix = "@PROJECT_NAME@",
 	gir_namespace = "@PROJECT_NAME@",

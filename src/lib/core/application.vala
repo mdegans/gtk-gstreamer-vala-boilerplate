@@ -1,5 +1,5 @@
 /**
- * photobin.vala
+ * application.vala
  *
  * Copyright 2021 Michael de Gans <47511965+mdegans@users.noreply.github.com>
  *
@@ -9,14 +9,10 @@
  * with the namespace name like `GGVB_VERSION_LONG`.
  */
 
-namespace GstGgvb {
+namespace Ggvb {
 
-class PhotoBin : Gst.Bin {
-
-  //  private bool prerolling = true;
-
-  
+class GstApplication : Application {
 
 }
 
-}
+} // namespace Ggvb

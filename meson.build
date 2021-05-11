@@ -1,7 +1,8 @@
 # Change your project name here, Which will change it everywhere except in
 # some `namespace` blocks, which you must rename manually. To be safe, just run
 # a search and replace of this project, replacing `Ggbb` with
-# `YourProjectNameLikeThis`
+# `YourProjectName` likewise rename `ggvb` to `your_project_name` and
+# `GGVB` to `YOUR_PROJECT_NAME`
 project('Ggvb', ['c', 'vala'],  # cpp/rust/whatever can be added here 
 # change version in VERSION file. Semver is mandatory the way these meson.build
 # files are written.
@@ -33,20 +34,33 @@ vala_args = [
   # '--more', 'strings',
 ]
 
-# deps we'll reuse throught the project
+## deps we'll reuse throught the project
 
+# Note: deps that are required: false will be ignored if not found
+
+# gio for async stuff and GLib.Application
+gio_dep = dependency('gio-2.0')
 # main gstreamer dep
 gst_dep = dependency('gstreamer-1.0')
 # base classes for plugin building
-gst_base_dep = dependency('gstreamer-base-1.0': required: false)
-# video overlay and more (required for gui)
-gst_video_dep = dependency('gstreamer-video-1.0': required: false)
+gst_base_dep = dependency('gstreamer-base-1.0')
+# video overlay and more (required for gui and video format info)
+gst_video_dep = dependency('gstreamer-video-1.0')
 # GstCheck (for tests)
-gst_check_dep = dependency('gstreamer-check-1.0': required: false)
+gst_check_dep = dependency('gstreamer-check-1.0', required: get_option('tests'))
 # gtk (required for gui)
-gtk_dep = dependency('gtk+-3.0', required: false)
+gtk_dep = dependency('gtk+-3.0', required: get_option('gui'))
+# gdk-pixbuf (required for still snapshots)
+gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0')
+# gdk-x11 (required for gui video overlay in x11)
+gdk_x11_3_0 = dependency('gdk-x11-3.0', required: get_option('gui'))
+# gdk-wayland (required for wayland)
+gdk_wayland_dep = dependency('gdk-wayland-3.0', required: get_option('wayland'))
 
-# includes for extern c/cpp/rust stuff
+# includes for extern c/cpp/rust stuff. They can be used in Vala if you wrap
+# them.
 subdir('include')
 # most of our source is in this dir and subdirs
 subdir('src')
+
+# see src/meson.build for configuration details

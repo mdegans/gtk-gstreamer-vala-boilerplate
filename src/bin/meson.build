@@ -1,18 +1,16 @@
 # sources for the console app target
-capp_src = [
-  'capp.vala',
-]
-capp = executable(capp_src)
+capp = executable('cgvb', 'capp.vala',
+  dependencies: [
+    ggvb_dep,
+  ],
+  install: true,
+)
 
-if gtk_dep.found() 
-  # sources for the Gtk app target
-  gapp_src = [
-    'gapp.vala',
-  ]
-  gapp = executable('ggvb', gapp_src,
+if gtk_dep.found()
+  gapp = executable('ggvb', 'gapp.vala',
     dependencies: [
-      gtk_dep,
-      gst_dep,
-    ]
+      ggvb_dep,
+    ],
+    install: true,
   )
 endif

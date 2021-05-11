@@ -29,13 +29,13 @@ public static bool plugin_init(Gst.Plugin p) {
 			p,
 			"dvrbin",
 			Gst.Rank.NONE,
-			typeof(DvrBin)
+			typeof(Gst@PROJECT_NAME@.DvrBin)
 		) &&
 		Gst.Element.register(
 			p,
 			"photobin",
 			Gst.Rank.NONE,
-			typeof(PhotoBin)
+			typeof(Gst@PROJECT_NAME@.PhotoBin)
 		)
 	);
 }

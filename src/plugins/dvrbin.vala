@@ -9,4 +9,12 @@
  * with the namespace name like `GGVB_VERSION_LONG`.
  */
 
- 
+namespace GstGgvb {
+
+class DvrBin : Gst.Bin {
+
+
+
+}
+
+}

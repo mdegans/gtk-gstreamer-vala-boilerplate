@@ -8,4 +8,6 @@ test_env_variables = [
 subdir('exitcode')
 if gst_check_dep.found()
   subdir('gst_check')
+else
+  warning('gstreamer-check-1.0 not found. Some tests will not be built.')
 endif

@@ -5,7 +5,7 @@
 # change this if you install plugins somewhere else
 # generally, gstreamer does not search anywhere else unless you append to
 # the GST_PLUGIN_PATH environment variable
-pluginsdir = gst_dep.get_variable(pkgconfig: 'pluginsdir')
+pluginsdir = config['PLUGINSDIR']
 
 # a variable to point to this **build** directory for use in testing
 # (so gstreamer can find the .so files generated without installation).
@@ -17,7 +17,7 @@ pluginsdir_uninstalled = meson.current_build_dir()
 plugin_vala = configure_file(
   input: 'plugin.vala.in',
   output: 'plugin.vala',
-  configuration: configuration,
+  configuration: config,
 )
 
 # sources for the plugin
@@ -30,7 +30,10 @@ plugin_sources = [
 # The plugin library. Generally, but not always, this is a shared library.
 plugin = library('gst' + meson.project_name(), plugin_sources,
   dependencies: [
+    gio_dep,
     gst_dep,
     gst_base_dep,
+    gst_video_dep,
+    gdk_pixbuf_dep,
   ]
 )
