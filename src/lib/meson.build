@@ -41,6 +41,9 @@ endforeach
 
 ggvb_dep = declare_dependency(
   link_with: libggvb,
+  dependencies: [
+    ggvb_deps,
+  ],
   include_directories: incdirs,
   variables: ggvb_variables,
 )

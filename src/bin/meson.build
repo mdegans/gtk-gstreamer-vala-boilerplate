@@ -8,9 +8,7 @@ capp = executable('cgvb', 'capp.vala',
 
 if gtk_dep.found()
   gapp = executable('ggvb', 'gapp.vala',
-    dependencies: [
-      ggvb_dep,
-    ],
+    dependencies: ggvb_dep,
     install: true,
   )
 endif

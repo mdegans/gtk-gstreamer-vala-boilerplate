@@ -7,13 +7,8 @@ ggvb_deps += [
 ]
 # generate C sources from Vala
 ggvb_sources += files(
-  'components.vala',
-  'gapplication.vala',
-  'layouts.vala',
+  'app_window.vala',
+  'histogram.vala',
 )
-# generate C sources from xml resources
-ggvb_sources += import('gnome').compile_resources(
-  'gui-resources',
-  'resources/gresources.xml',
-  source_dir: ['resources'],
-)
+# generate ui resources
+subdir('resources')
