@@ -4,4 +4,8 @@ option('wayland',
   value: 'disabled',
   description: 'enable wayland',
 )
+
+# FIXME(mdegans) re-enable this later
+# option('histogram_height', type : 'integer', min : 0, max : 256, value : 128)
+
 option('tests', type: 'feature', description: 'enable all tests')

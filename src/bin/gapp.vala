@@ -10,7 +10,18 @@
  */
 
 static int main(string[] args) {
-  // do stuff here
-  (void)args;
-  return 0;
+  Gst.init(ref args);
+
+  var app = new Gtk.Application(
+    "dev.mdegans.GstSmartTestGui", GLib.ApplicationFlags.FLAGS_NONE);
+
+  app.activate.connect(() => {
+    print("ACTIVATING APPLICATION WINDOW\n");
+    var window = new Ggvb.AppWindow(app);
+
+    window.show_all();
+    window.present();
+  });
+
+  return app.run(args);
 }

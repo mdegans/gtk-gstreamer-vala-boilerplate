@@ -27,6 +27,12 @@ endif
 # library target for libggvb
 libggvb = library(meson.project_name(), ggvb_sources,
   dependencies: ggvb_deps,
+  vala_args: [
+    vala_args,
+    # fix compiler bug where valac generates "Ggvb.h" instead of "ggvb.h" FML
+    '--header=' + meson.current_build_dir() / 'ggvb.h',
+  ],
+  c_args: c_args,
   # generates libggvb.so.0.0.0 and symlinks
   version: meson.project_version(),
   install: true,
@@ -44,6 +50,9 @@ ggvb_dep = declare_dependency(
   dependencies: [
     ggvb_deps,
   ],
-  include_directories: incdirs,
+  include_directories: [
+    incdirs,
+    include_directories('.'),  # for the generated header
+  ],
   variables: ggvb_variables,
 )

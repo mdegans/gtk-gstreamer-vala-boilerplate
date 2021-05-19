@@ -29,8 +29,21 @@ package_name = meson.project_name() + ' (' + get_option('buildtype') + ')'
 # this). almost anything you can add here can be set elsewhere, better.
 c_args = [
   # '--strings', 'be', '-DADDED', 'here',
+
+  # this is a hack to make valac compile because there could possibly be a
+  # slight compiler bug (turn these off and see with Vala 0.48.6)
+  # don't change these for now unless you change these lines in histogram.vala:
+  #   public const size_t HISTOGRAM_WIDTH = 256;
+  #   public const size_t HISTOGRAM_HEIGHT = 128;
+  '-DGGVB_HISTOGRAM_WIDTH=256',  # do not change width
+  '-DGGVB_HISTOGRAM_HEIGHT=128',
 ]
 vala_args = [
+  # because the language server is failing:
+  # FIXME(mdegans): fix this
+  '--pkg=gtk+-3.0',
+  # '--pkg=gdk_x11_3_0',
+  # '--pkg=gdk-wayland-3.0',
   # '--more', 'strings',
 ]
 

@@ -10,8 +10,10 @@ namespace Ggvb {
 
 [GtkTemplate (ui = "/components/histogram.ui")]
 public class Histogram : Gtk.Expander {
-  public const size_t HISTOGRAM_WIDTH = 256;
-  public const size_t HISTOGRAM_HEIGHT = 128;
+  /** The *drawing area* width */
+  public const size_t WIDTH = 256;
+  /** the *drawing area* height */
+  public const size_t HEIGHT = 128;
   
   [GtkChild]
   public Gtk.StackSwitcher lcrgb_switcher;
@@ -19,14 +21,14 @@ public class Histogram : Gtk.Expander {
   [GtkChild]
   public Gtk.DrawingArea drawing_area;
 
-  bool bitmap[HISTOGRAM_WIDTH * HISTOGRAM_HEIGHT];
+  bool bitmap[WIDTH * HEIGHT];
 
   construct {
     // connect all of the above
     (void)update_area;
   }
 
-  void update_area(size_t hist[HISTOGRAM_WIDTH]) {
+  void update_area(size_t hist[WIDTH]) {
     // find biggest element in array
     size_t max_elem = 0;
     foreach (size_t count in hist) {
@@ -35,12 +37,12 @@ public class Histogram : Gtk.Expander {
       }
     }
     // scale height the biggest element
-    for (size_t i = 0; i < HISTOGRAM_WIDTH; i++) {
+    for (size_t i = 0; i < WIDTH; i++) {
       hist[i] = (size_t)((double)hist[i] / (double)max_elem * (double)128);
     }
     // update bitmap
-    for (size_t row = 0; row < HISTOGRAM_HEIGHT; row++) {
-      for (size_t col = 0; row < HISTOGRAM_WIDTH; col++) {
+    for (size_t row = 0; row < HEIGHT; row++) {
+      for (size_t col = 0; row < WIDTH; col++) {
         this.bitmap[row + col] = hist[col] <= row;
       }
     }
