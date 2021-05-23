@@ -1,4 +1,4 @@
-/**
+/*
  * pipeline.vala
  *
  * Copyright 2021 Michael de Gans <47511965+mdegans@users.noreply.github.com>
@@ -12,11 +12,15 @@
 namespace Ggvb {
 
 class Pipeline : Gst.Pipeline {
-  public Gst.Video.Overlay overlay;
+  /** Get overlay interface provided by sink. */
+  Gst.Video.Overlay overlay;
 
   construct {
-    var src = Gst.ElementFactory.make("videotestsrc", null);
-    var sink = Gst.ElementFactory.make("xvimagesink", null);
+    var opt_src = Gst.ElementFactory.make("videotestsrc", null);
+    var opt_sink = Gst.ElementFactory.make("xvimagesink", null);
+    assert(opt_src != null && opt_sink != null);
+    var src = (!)opt_src;
+    var sink = (!)opt_sink;
 
     if (sink is Gst.Video.Overlay) {
       overlay = (!)(sink as Gst.Video.Overlay);
@@ -33,6 +37,12 @@ class Pipeline : Gst.Pipeline {
    * Supply a string and/or GError.
    */
   public signal void errmsg(string? msg = null, Error? err = null);
+
+  /**
+   * Get the video overlay interface of the sink. Not a property because
+   * Overlay is not a GType and GParamSpec only supports.
+   */
+  public Gst.Video.Overlay get_overlay() { return overlay; }
 }
 
 } // namespace Ggvb

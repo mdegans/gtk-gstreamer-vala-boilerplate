@@ -13,10 +13,9 @@ static int main(string[] args) {
   Gst.init(ref args);
 
   var app = new Gtk.Application(
-    "dev.mdegans.GstSmartTestGui", GLib.ApplicationFlags.FLAGS_NONE);
+    "dev.mdegans.GgvbGui", GLib.ApplicationFlags.FLAGS_NONE);
 
   app.activate.connect(() => {
-    print("ACTIVATING APPLICATION WINDOW\n");
     var window = new Ggvb.AppWindow(app);
 
     window.show_all();

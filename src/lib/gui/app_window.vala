@@ -1,4 +1,4 @@
-/**
+/*
  * app_window.vala
  *
  * Copyright 2021 Michael de Gans <47511965+mdegans@users.noreply.github.com>
@@ -57,7 +57,7 @@ public class AppWindow : Gtk.ApplicationWindow {
     var pipe = new Ggvb.Pipeline();
 
     // setup fullscreen button
-    this.window_state_event.connect((state) => {
+    window_state_event.connect((state) => {
         // cache the fullscreen state
         is_fullscreen = (bool)(state.new_window_state & Gdk.WindowState.FULLSCREEN);
     });
@@ -67,6 +67,16 @@ public class AppWindow : Gtk.ApplicationWindow {
       } else {
         fullscreen();
       }
+    });
+
+    sidebar_r.add(new Histogram());
+
+    // setup revealer buttons
+    btn_sources.toggled.connect(() => {
+      sidebar_l.set_reveal_child(btn_sources.get_active());
+    });
+    btn_preferences.toggled.connect(() => {
+      sidebar_r.set_reveal_child(btn_preferences.get_active());
     });
 
     // connect bus message callback
@@ -80,7 +90,7 @@ public class AppWindow : Gtk.ApplicationWindow {
       var maybe_area_win = video_area.get_window() as Gdk.X11.Window;
       if (maybe_area_win != null) {
           var area_win = (!)maybe_area_win;
-          pipe.overlay.set_window_handle((uint*)area_win.get_xid());
+          pipe.get_overlay().set_window_handle((uint*)area_win.get_xid());
       } else {
           error("could not get DrawingArea window as Gdk.X11.Window");
       }
@@ -98,15 +108,9 @@ public class AppWindow : Gtk.ApplicationWindow {
             ctx.fill();
         }
     });
-    pipe.notify["state"].connect(() => {
-        // If the pipeline state changes, We should redraw the overlay_area.
-        // Otherwise on stop, for example, it'll continue to display the
-        // previous frame until the window is resized.
-        video_area.queue_draw();
-    });
 
     // cleanup pipeline when widget is destroyed
-    this.destroy.connect(() => {
+    destroy.connect(() => {
         Gst.Debug.BIN_TO_DOT_FILE((!)(pipe as Gst.Bin),
                                   Gst.DebugGraphDetails.ALL,
                                   "destroy-start");
@@ -134,6 +138,7 @@ public class AppWindow : Gtk.ApplicationWindow {
       case Gst.MessageType.STATE_CHANGED: {
         // cache the current state for ui use
         msg.parse_state_changed(null, out state, null);
+        video_area.queue_draw();
         break;
       }
     }

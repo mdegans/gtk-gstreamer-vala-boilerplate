@@ -29,15 +29,12 @@ package_name = meson.project_name() + ' (' + get_option('buildtype') + ')'
 # this). almost anything you can add here can be set elsewhere, better.
 c_args = [
   # '--strings', 'be', '-DADDED', 'here',
-
-  # this is a hack to make valac compile because there could possibly be a
-  # slight compiler bug (turn these off and see with Vala 0.48.6)
-  # don't change these for now unless you change these lines in histogram.vala:
-  #   public const size_t HISTOGRAM_WIDTH = 256;
-  #   public const size_t HISTOGRAM_HEIGHT = 128;
-  '-DGGVB_HISTOGRAM_WIDTH=256',  # do not change width
-  '-DGGVB_HISTOGRAM_HEIGHT=128',
 ]
+
+test_c_args = [
+  # ditto as above, but only for tests
+]
+
 vala_args = [
   # because the language server is failing:
   # FIXME(mdegans): fix this
@@ -45,6 +42,13 @@ vala_args = [
   # '--pkg=gdk_x11_3_0',
   # '--pkg=gdk-wayland-3.0',
   # '--more', 'strings',
+  '--vapi-comments',  # puts code comments in the vapi
+  '--abi-stability',
+  '--enable-experimental-non-null',  # to not foot gun
+]
+
+test_vala_args = [
+  # ditto as above, but only for tests
 ]
 
 ## deps we'll reuse throught the project
@@ -66,7 +70,7 @@ gtk_dep = dependency('gtk+-3.0', required: get_option('gui'))
 # gdk-pixbuf (required for still snapshots)
 gdk_pixbuf_dep = dependency('gdk-pixbuf-2.0')
 # gdk-x11 (required for gui video overlay in x11)
-gdk_x11_3_0 = dependency('gdk-x11-3.0', required: get_option('gui'))
+gdk_x11_dep = dependency('gdk-x11-3.0', required: get_option('gui'))
 # gdk-wayland (required for wayland)
 gdk_wayland_dep = dependency('gdk-wayland-3.0', required: get_option('wayland'))
 

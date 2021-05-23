@@ -7,118 +7,20 @@
   <!-- interface-description A histogram widget for Ggvb boilerplate -->
   <!-- interface-copyright Michael de Gans 2021 -->
   <!-- interface-authors Michael de Gans -->
-  <object class="GtkStack" id="lcrgb_stack">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="hhomogeneous">False</property>
-    <property name="vhomogeneous">False</property>
-    <child>
-      <object class="GtkLabel" id="rgb">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="tooltip_text" translatable="yes">show all channels</property>
-        <property name="label" translatable="yes">L</property>
-      </object>
-      <packing>
-        <property name="name">rgb</property>
-        <property name="title" translatable="yes">RGB</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="luma">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="tooltip_text" translatable="yes">lumanance</property>
-        <property name="label" translatable="yes">label</property>
-      </object>
-      <packing>
-        <property name="name">luma</property>
-        <property name="title" translatable="yes">L</property>
-        <property name="position">1</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="r">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">label</property>
-      </object>
-      <packing>
-        <property name="name">r</property>
-        <property name="title" translatable="yes">R</property>
-        <property name="position">2</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="g">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">label</property>
-      </object>
-      <packing>
-        <property name="name">g</property>
-        <property name="title" translatable="yes">G</property>
-        <property name="position">3</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel" id="b">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">label</property>
-      </object>
-      <packing>
-        <property name="name">b</property>
-        <property name="title" translatable="yes">B</property>
-        <property name="position">4</property>
-      </packing>
-    </child>
-  </object>
   <template class="GgvbHistogram" parent="GtkExpander">
     <property name="visible">True</property>
     <property name="can_focus">True</property>
-    <property name="expanded">True</property>
-    <property name="spacing">6</property>
     <property name="label_fill">True</property>
     <child>
-      <object class="GtkBox" id="box">
+      <object class="GtkDrawingArea" id="drawing_area">
+        <property name="width_request">256</property>
+        <property name="height_request">128</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkDrawingArea" id="drawing_area">
-            <property name="width_request">256</property>
-            <property name="height_request">128</property>
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="hexpand">True</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">-1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkStackSwitcher" id="lcrgb_switcher">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="stack">lcrgb_stack</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
       </object>
     </child>
-    <child type="label">
-      <object class="GtkLabel" id="label">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">histogram</property>
-      </object>
+    <child type="label_item">
+      <placeholder/>
     </child>
   </template>
 </interface>

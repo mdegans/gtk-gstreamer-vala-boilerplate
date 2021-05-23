@@ -50,4 +50,8 @@ public const string GST_LIBDIR = "@GST_LIBDIR@";
 public const string GST_GIRDIR = "@GST_GIRDIR@";
 public const string GST_TYPELIBDIR = "@GST_TYPELIBDIR@";
 
+public const size_t HISTOGRAM_WIDTH = 256;
+public const size_t HISTOGRAM_HEIGHT = HISTOGRAM_WIDTH / 2;
+public const size_t HISTOGRAM_CHANNELS = 4;
+
 } // namespace @PROJECT_NAME@

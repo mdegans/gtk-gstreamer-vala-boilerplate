@@ -24,12 +24,20 @@ gst_version_major = gst_version_arr[0].to_int()
 gst_version_minor = gst_version_arr[1].to_int()
 gst_version_patch = gst_version_arr[2].to_int()
 
+build_gui = false
+if gtk_dep.found() and gdk_pixbuf_dep.found() and (gdk_x11_dep.found() or gdk_wayland_dep.found())
+  build_gui = true
+endif
+
 # a dict for this project's configuration.
 config = {
   'PROJECT_NAME': meson.project_name(),
   'PROJECT_NAME_LOWER': meson.project_name().to_lower(),
   'PROJECT_DESCRIPTION': project_description,
   'PLUGIN_DESCRIPTION': 'Plugin for ' + meson.project_name(),
+
+  # config stuff
+  'HAS_GUI': build_gui,
 
   # we can only specify one because GStreamer.
   'LICENSE': meson.project_license()[0],

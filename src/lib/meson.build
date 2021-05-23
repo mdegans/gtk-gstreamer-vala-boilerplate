@@ -18,7 +18,7 @@ ggvb_deps = [
 
 subdir('core')
 subdir('utils')
-if gtk_dep.found() and gdk_pixbuf_dep.found()
+if build_gui
   subdir('gui')
 else
   warning('libgtk-3-dev not found. Gui will not be built.')
