@@ -54,3 +54,6 @@ dkms.conf
 # glade trash
 *.ui~
 *.ui#
+
+# ide stuff
+.vscode/
