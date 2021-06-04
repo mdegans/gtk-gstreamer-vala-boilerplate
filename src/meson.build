@@ -29,6 +29,10 @@ if gtk_dep.found() and gdk_pixbuf_dep.found() and (gdk_x11_dep.found() or gdk_wa
   build_gui = true
 endif
 
+# is this a tegra board?
+fs = import('fs')
+is_tegra = fs.is_file('/etc/nv_tegra_release')
+
 # a dict for this project's configuration.
 config = {
   'PROJECT_NAME': meson.project_name(),
@@ -53,6 +57,9 @@ config = {
   'VERSION_PATCH': version_patch,
   'VERSION_GIT': version_git,
 
+  # system info
+  'IS_TEGRA': is_tegra.to_string(),  # without to_string() it's "False" ?!?!
+
   ## random variables
   # Note: it's advasible to use the systemwide pluginsdir since another prefix
   # will probably not be scanned by GStreamer by default.
@@ -76,6 +83,15 @@ config = {
   'GST_LIBDIR': gst_dep.get_variable(pkgconfig: 'libdir'),
   'GST_GIRDIR': gst_dep.get_variable(pkgconfig: 'girdir'),
   'GST_TYPELIBDIR': gst_dep.get_variable(pkgconfig: 'typelibdir'),
+
+  # gstreamer elements
+  'GST_CONVERTER': is_tegra ? 'nvvidconv' : 'videoconvert',
+  'GST_CAMERA': is_tegra ? 'nvarguscamerasrc' : 'v4l2src',
+  'GST_H265_ENCODER': is_tegra ? 'nvv4l2h265enc' : 'x265enc',
+  'GST_H264_ENCODER': is_tegra ? 'nvv4l2h264enc' : 'x264enc',
+
+  # encoder configuration
+  'USE_H265': is_tegra ? true.to_string() : false.to_string(),
 }
 
 # this works like cmake's configure_file, except

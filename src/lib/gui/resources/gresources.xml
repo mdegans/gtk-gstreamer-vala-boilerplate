@@ -8,8 +8,8 @@
 <gresources>
 <gresource prefix="/">
 <!-- <file compressed="true">components/statusbar.ui</file>
-<file compressed="true">components/statusbar.ui</file>
-<file compressed="true">components/titlebar.ui</file> -->
+<file compressed="true">components/statusbar.ui</file> -->
+<file compressed="true">components/camera_controls.ui</file>
 <file compressed="true">components/histogram.ui</file>
 <file compressed="true">layouts/app_window.ui</file>
 <!-- <file compressed="true">layouts/preferences.ui</file> -->

@@ -4,14 +4,15 @@
  * Copyright 2021 Michael de Gans <47511965+mdegans@users.noreply.github.com>
  *
  * MIT License - see LICENSE.build
- *
- * This file is a template. These will eventually become #defines in C, prefixed
- * with the namespace name like `GGVB_VERSION_LONG`.
  */
 
 namespace Ggvb {
 
-class Pipeline : Gst.Pipeline {
+public class Pipeline : Gst.Pipeline {
+  // Sub-Bins
+  public PhotoBin photobin = new PhotoBin();
+  public RecordBin recordbin = new RecordBin();
+
   /** Get overlay interface provided by sink. */
   Gst.Video.Overlay overlay;
 
@@ -36,7 +37,7 @@ class Pipeline : Gst.Pipeline {
    * Signal emitted by the pipeline on error so it can be handled by the UI.
    * Supply a string and/or GError.
    */
-  public signal void errmsg(string? msg = null, Error? err = null);
+  public signal void errmsg(Error? err = null, string? debug = null);
 
   /**
    * Get the video overlay interface of the sink. Not a property because

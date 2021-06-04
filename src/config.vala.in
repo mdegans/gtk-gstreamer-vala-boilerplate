@@ -32,6 +32,8 @@ public const int VERSION_MINOR = @VERSION_MINOR@;
 public const int VERSION_PATCH = @VERSION_PATCH@;
 public const string VERSION_GIT = "@VERSION_GIT@";
 
+public const bool IS_TEGRA = @IS_TEGRA@;
+
 public const string PLUGINSDIR = "@PLUGINSDIR@";
 public const string PREFIX = "@PREFIX@";
 public const string DATADIR = "@DATADIR@";
@@ -53,5 +55,17 @@ public const string GST_TYPELIBDIR = "@GST_TYPELIBDIR@";
 public const size_t HISTOGRAM_WIDTH = 256;
 public const size_t HISTOGRAM_HEIGHT = HISTOGRAM_WIDTH / 2;
 public const size_t HISTOGRAM_CHANNELS = 4;
+
+/** platform specific converter element (eg. videoconvert) */
+public const string GST_CONVERTER = "@GST_CONVERTER@";
+/** platform specific camera element (eg. v4l2src) */
+public const string GST_CAMERA = "@GST_CAMERA@";
+/** platform specific h265 encoder element */
+public const string GST_H265_ENCODER = "@GST_H265_ENCODER@";
+/** platform specific h264 encoder element */
+public const string GST_H264_ENCODER = "@GST_H264_ENCODER@";
+
+/** whether to use h265 encoder or h264 */
+public const bool USE_H265 = @USE_H265@;
 
 } // namespace @PROJECT_NAME@

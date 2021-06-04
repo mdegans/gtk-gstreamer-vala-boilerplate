@@ -9,6 +9,7 @@ ggvb_deps += [
 ggvb_sources += files(
   'app_window.vala',
   'histogram.vala',
+  'camera_controls.vala',
 )
 # generate ui resources
 subdir('resources')

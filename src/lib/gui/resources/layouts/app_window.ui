@@ -43,7 +43,7 @@ Author: Michael de Gans
     <property name="can_focus">False</property>
     <property name="stock">gtk-missing-image</property>
   </object>
-  <object class="GtkImage" id="img_sources">
+  <object class="GtkImage" id="img_info">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-open</property>
@@ -104,11 +104,11 @@ Author: Michael de Gans
                         <property name="can_focus">False</property>
                         <property name="layout_style">start</property>
                         <child>
-                          <object class="GtkToggleButton" id="btn_sources">
+                          <object class="GtkToggleButton" id="btn_info">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="image">img_sources</property>
+                            <property name="image">img_info</property>
                           </object>
                           <packing>
                             <property name="expand">True</property>

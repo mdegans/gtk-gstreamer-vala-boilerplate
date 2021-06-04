@@ -10,6 +10,9 @@ namespace Ggvb {
 
 [GtkTemplate (ui = "/layouts/app_window.ui")]
 public class AppWindow : Gtk.ApplicationWindow {
+
+  // BEGIN WIDGETS
+
   /** reveals the left sidebar */
   [GtkChild]
   public Gtk.Revealer sidebar_l;
@@ -26,7 +29,7 @@ public class AppWindow : Gtk.ApplicationWindow {
   [GtkChild]
   public Gtk.DrawingArea video_area;
 
-  /** left set of buttons (sources, ...) */
+  /** left set of buttons (info, ...) */
   [GtkChild]
   public Gtk.ButtonBox left_buttons;
 
@@ -38,9 +41,9 @@ public class AppWindow : Gtk.ApplicationWindow {
   [GtkChild]
   public Gtk.Box control_box;
 
-  /** toggles the sources revealer */
+  /** toggles the info revealer */
   [GtkChild]
-  public Gtk.ToggleButton btn_sources;
+  public Gtk.ToggleButton btn_info;
 
   /** toggles fullscreen */
   [GtkChild]
@@ -50,17 +53,27 @@ public class AppWindow : Gtk.ApplicationWindow {
   [GtkChild]
   public Gtk.ToggleButton btn_preferences;
 
+  /** Histogram widget for video_area video */
+  Histogram histogram = new Histogram();
+
+  // END WIDGETS
+
+  /** Cached fullscreen state. */
   bool is_fullscreen = false;
+  /** Cached GStreamer pipeline state */
   Gst.State state = Gst.State.NULL;
+  /** Pipeline */
+  Ggvb.Pipeline pipe = new Ggvb.Pipeline();
 
   construct {
-    var pipe = new Ggvb.Pipeline();
+    // connect pipeline error handling
+    pipe.errmsg.connect(on_error);
 
-    // setup fullscreen button
+    // cache the fullscreen state (the toggled state is not reliable per docs).
     window_state_event.connect((state) => {
-        // cache the fullscreen state
         is_fullscreen = (bool)(state.new_window_state & Gdk.WindowState.FULLSCREEN);
     });
+    // setup fullscreen button
     btn_fullscreen.toggled.connect((btn) => {
       if (is_fullscreen) {
         unfullscreen();
@@ -69,11 +82,11 @@ public class AppWindow : Gtk.ApplicationWindow {
       }
     });
 
-    sidebar_r.add(new Histogram());
+    sidebar_l.add(histogram);
 
     // setup revealer buttons
-    btn_sources.toggled.connect(() => {
-      sidebar_l.set_reveal_child(btn_sources.get_active());
+    btn_info.toggled.connect(() => {
+      sidebar_l.set_reveal_child(btn_info.get_active());
     });
     btn_preferences.toggled.connect(() => {
       sidebar_r.set_reveal_child(btn_preferences.get_active());
@@ -128,11 +141,10 @@ public class AppWindow : Gtk.ApplicationWindow {
   private bool on_bus_message(Gst.Bus bus, Gst.Message msg) {
     switch (msg.type) {
       case Gst.MessageType.ERROR: {
-        Error err;
-        string debug;
+        Error? err = null;
+        string? debug = null;
         msg.parse_error(out err, out debug);
-        on_error(debug);
-        this.destroy();
+        on_error(err, debug);
         break;
       }
       case Gst.MessageType.STATE_CHANGED: {
@@ -145,13 +157,40 @@ public class AppWindow : Gtk.ApplicationWindow {
     return true;
   }
 
-  private void on_error(string errmsg) {
+  public void on_error(Error? err = null, string? debug = null) {
+    assert(err != null || debug != null);
+
+    // assemble error message from debug string and any GError
+    string errmsg = "";
+    if (debug != null) {
+      errmsg += (!)debug;
+    }
+    if (err != null) {
+      errmsg += ((!)err).message;
+    }
+
+    // createa and show a dialog box
     var dialog = new Gtk.MessageDialog(
-      this,
-      Gtk.DialogFlags.MODAL,
-      Gtk.MessageType.ERROR,
-      Gtk.ButtonsType.CLOSE,
-      errmsg);
+        this,
+        Gtk.DialogFlags.MODAL,
+        Gtk.MessageType.ERROR,
+        Gtk.ButtonsType.CLOSE,
+        errmsg);
+    
+    // when the user closes the dialog box, handle error appropriately
+    dialog.destroy.connect(() => {
+      // quit on any GStreamer related error.
+      if (err is Gst.CoreError
+          || err is Gst.ParseError
+          || err is Gst.PluginError
+          || err is Gst.StreamError
+          || err is Gst.LibraryError
+          || err is Gst.ResourceError) {
+        this.application.quit();
+      }
+    });
+
+    // show the dialog box
     dialog.show();
   }
 }

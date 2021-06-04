@@ -37,6 +37,8 @@ public class Histogram : Gtk.Expander {
       // tried to get the allocated pixels i got an error, so it reuses the data
       // but a new GObject is constructed from data on every draw, which happens
       // a lot, so this isn't ideal, but it works.
+      // Also, trying to write to the data returned from pixbuf.get_pixels is a
+      // crash if the pixbuf is created.
       var pixbuf = new Gdk.Pixbuf.from_data(
         data,
         Gdk.Colorspace.RGB,
@@ -95,7 +97,7 @@ public class Histogram : Gtk.Expander {
                 (double)max_elem * (double)(height));
         // alpha is opaque if h_val is greater than the (inverse) height
         alpha = h_val > (height - y) ? uint8.MAX : uint8.MIN;
-        data[y * stride + (x * channels) + channels - 1] = alpha;
+        data[y * stride + (x * channels) + (channels - 1)] = alpha;
       }
     }
 
